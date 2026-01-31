@@ -1,0 +1,76 @@
+:root {
+    // 主题强调色
+    --color-primary: #3ef91c;
+    --color-primary-hover: #5bfa42;
+    --color-primary-active: #32d016;
+    --color-primary-disabled: rgba(62, 249, 28, 0.4);
+    --color-primary-ghost: rgba(62, 249, 28, 0.1);
+
+    // 背景色（由深到浅）
+    --bg-deepest: #0a0a0a;
+    --bg-deep: #121212;
+    --bg-base: #1a1a1a;
+    --bg-elevated: #242424;
+    --bg-surface: #2d2d2d;
+
+    // 文字颜色
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --text-tertiary: #6b6b6b;
+    --text-disabled: #4a4a4a;
+    --text-inverse: #0a0a0a;
+
+    // 边框颜色
+    --border-default: #2a2a2a;
+    --border-hover: #3d3d3d;
+    --border-focus: var(--color-primary);
+    --border-disabled: #1f1f1f;
+
+    // 功能色 - 成功
+    --color-success: #22c55e;
+    --color-success-hover: #16a34a;
+    --color-success-ghost: rgba(34, 197, 94, 0.15);
+
+    // 功能色 - 警告
+    --color-warning: #f59e0b;
+    --color-warning-hover: #d97706;
+    --color-warning-ghost: rgba(245, 158, 11, 0.15);
+
+    // 功能色 - 错误
+    --color-error: #ef4444;
+    --color-error-hover: #dc2626;
+    --color-error-ghost: rgba(239, 68, 68, 0.15);
+
+    // 功能色 - 信息
+    --color-info: #3b82f6;
+    --color-info-hover: #2563eb;
+    --color-info-ghost: rgba(59, 130, 246, 0.15);
+
+    // 间距
+    --gap-xs: 5px;
+    --gap-sm: 10px;
+    --gap-base: 15px;
+    --gap-md: 20px;
+    --gap-lg: 30px;
+    --gap-xl: 45px;
+
+    // 圆角
+    --radius-sm: 2px;
+    --radius-base: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    // 阴影（深色主题适用）
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(62, 249, 28, 0.3);
+
+    // 过渡
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 350ms ease;
+}
