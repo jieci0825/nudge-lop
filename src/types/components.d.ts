@@ -13,10 +13,14 @@ declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('./../components/button/index.vue')['default']
     ILucideBolt: typeof import('~icons/lucide/bolt')['default']
+    ILucideCalendar: typeof import('~icons/lucide/calendar')['default']
+    ILucideClock: typeof import('~icons/lucide/clock')['default']
+    ILucideMinus: typeof import('~icons/lucide/minus')['default']
     ILucidePlus: typeof import('~icons/lucide/plus')['default']
     ILucideRefreshCw: typeof import('~icons/lucide/refresh-cw')['default']
     ILucideSettings: typeof import('~icons/lucide/settings')['default']
     ILucideSun: typeof import('~icons/lucide/sun')['default']
+    ILucideX: typeof import('~icons/lucide/x')['default']
     Tag: typeof import('./../components/tag/index.vue')['default']
   }
 }

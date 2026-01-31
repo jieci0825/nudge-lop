@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useNudges } from '@/composables/use-nudges'
+import type { Nudge } from '@/types/nudge'
 import FilterTabs from './filter-tabs.vue'
 import NudgeCard from './nudge-card.vue'
 import NudgeCreateCard from './nudge-create-card.vue'
+import NudgeFormContainer from './nudge-form-container.vue'
 
 const filterTabs = [
     { key: 'all', label: 'All' },
@@ -10,69 +13,30 @@ const filterTabs = [
     { key: 'paused', label: 'Paused' },
 ]
 
-const activeFilter = ref('all')
+const { filteredNudges, activeFilter, toggle } = useNudges()
 
-const nudges = ref([
-    {
-        id: 1,
-        title: '起身活动',
-        description: '站起来活动一下，伸展你的身体吧',
-        schedule: '每 45 分钟',
-        nextReminder: '42 分钟后',
-        active: true,
-    },
-    {
-        id: 2,
-        title: '眼部休息',
-        description: '看看远处，让眼睛放松一下',
-        schedule: '每 20 分钟',
-        nextReminder: '15 分钟后',
-        active: true,
-    },
-    {
-        id: 3,
-        title: '调整坐姿',
-        description: '检查一下你的坐姿是否正确',
-        schedule: '每 1 小时',
-        nextReminder: '',
-        active: false,
-    },
-    {
-        id: 4,
-        title: '深呼吸',
-        description: '做几次深呼吸，放松身心',
-        schedule: '每 2 小时',
-        nextReminder: '1 小时 30 分钟后',
-        active: true,
-    },
-    {
-        id: 5,
-        title: '喝水提醒',
-        description: '记得补充水分，保持身体水分充足',
-        schedule: '每 30 分钟',
-        nextReminder: '25 分钟后',
-        active: true,
-    },
-])
+const formVisible = ref(false)
+const editingNudge = ref<Nudge | null>(null)
 
-function toggleNudge(id: number, value: boolean) {
-    const nudge = nudges.value.find(n => n.id === id)
-    if (nudge) {
-        nudge.active = value
-    }
+function openCreateForm() {
+    editingNudge.value = null
+    formVisible.value = true
 }
+
+function openEditForm(nudge: Nudge) {
+    editingNudge.value = nudge
+    formVisible.value = true
+}
+
+defineExpose({
+    openCreateForm,
+})
 </script>
 
 <template>
     <section class="nudge-list">
         <div class="nudge-list__header">
-            <div class="nudge-list__title-area">
-                <h1 class="nudge-list__title">Active Nudges</h1>
-                <p class="nudge-list__subtitle">
-                    Next nudge in
-                    <span class="nudge-list__countdown">04:21</span> • Hydration
-                </p>
-            </div>
+            <h1 class="nudge-list__title">让提醒成为一种节律</h1>
             <FilterTabs
                 v-model="activeFilter"
                 :tabs="filterTabs"
@@ -80,17 +44,24 @@ function toggleNudge(id: number, value: boolean) {
         </div>
         <div class="nudge-list__grid">
             <NudgeCard
-                v-for="nudge in nudges"
+                v-for="nudge in filteredNudges"
                 :key="nudge.id"
                 :title="nudge.title"
                 :description="nudge.description"
                 :schedule="nudge.schedule"
+                :schedule-config="nudge.scheduleConfig"
                 :next-reminder="nudge.nextReminder"
                 :active="nudge.active"
-                @update:active="toggleNudge(nudge.id, $event)"
+                @update:active="toggle(nudge.id, $event)"
+                @edit="openEditForm(nudge)"
             />
-            <NudgeCreateCard />
+            <NudgeCreateCard @click="openCreateForm" />
         </div>
+
+        <NudgeFormContainer
+            v-model:visible="formVisible"
+            :edit-data="editingNudge"
+        />
     </section>
 </template>
 
@@ -106,30 +77,11 @@ function toggleNudge(id: number, value: boolean) {
     margin-bottom: var(--gap-lg);
 }
 
-.nudge-list__title-area {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-xs);
-}
-
 .nudge-list__title {
     font-size: 24px;
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
-}
-
-.nudge-list__subtitle {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin: 0;
-}
-
-.nudge-list__countdown {
-    color: var(--color-primary);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
 }
 
 .nudge-list__grid {

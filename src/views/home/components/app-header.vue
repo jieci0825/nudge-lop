@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import Button from '@/components/button/index.vue'
 import IconButton from './icon-button.vue'
+
+const emit = defineEmits<{
+    addTask: []
+}>()
 </script>
 
 <template>
@@ -14,12 +18,15 @@ import IconButton from './icon-button.vue'
             <span class="app-header__title">NudgeLoop</span>
         </div>
         <div class="app-header__right">
-            <Button type="primary">
+            <Button
+                type="primary"
+                @click="emit('addTask')"
+            >
                 <i-lucide-plus
                     width="16"
                     height="16"
                 />
-                Add Nudge
+                Add Task
             </Button>
             <IconButton>
                 <i-lucide-settings

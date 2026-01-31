@@ -1,22 +1,33 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import type { ScheduleConfig } from '@/types/nudge'
+import { calculateNextTriggerTime } from '@/utils/schedule'
 import ToggleSwitch from './toggle-switch.vue'
+import CountdownTimer from './countdown-timer.vue'
 
 interface Props {
     title: string
     description: string
     schedule: string
+    scheduleConfig: ScheduleConfig
     nextReminder?: string
     active?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     active: true,
     nextReminder: '',
 })
 
 const emit = defineEmits<{
     'update:active': [value: boolean]
+    'edit': []
 }>()
+
+// 计算下一次触发时间戳
+const nextTriggerTimestamp = computed(() => {
+    return calculateNextTriggerTime(props.scheduleConfig)
+})
 </script>
 
 <template>
@@ -31,9 +42,14 @@ const emit = defineEmits<{
                 @update:model-value="emit('update:active', $event)"
             />
         </div>
-        <p class="nudge-card__description">{{ description }}</p>
+        <p class="nudge-card__description">
+            {{ description || '&nbsp;&nbsp;' }}
+        </p>
         <div class="nudge-card__footer">
-            <div class="nudge-card__schedule-tag">
+            <div
+                class="nudge-card__schedule-tag"
+                @click="emit('edit')"
+            >
                 <i-lucide-refresh-cw
                     class="nudge-card__refresh-icon"
                     width="14"
@@ -46,12 +62,10 @@ const emit = defineEmits<{
                     height="14"
                 />
             </div>
-            <p
-                v-if="nextReminder"
-                class="nudge-card__next-reminder"
-            >
-                下次提醒：{{ nextReminder }}
-            </p>
+            <div class="nudge-card__next-reminder">
+                <span class="nudge-card__next-reminder-label">下次提醒：</span>
+                <CountdownTimer :target-timestamp="nextTriggerTimestamp" />
+            </div>
         </div>
     </div>
 </template>
@@ -126,8 +140,15 @@ const emit = defineEmits<{
 }
 
 .nudge-card__next-reminder {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     color: var(--color-primary);
     font-size: 14px;
     margin-top: var(--gap-sm);
+}
+
+.nudge-card__next-reminder-label {
+    color: var(--text-secondary);
 }
 </style>

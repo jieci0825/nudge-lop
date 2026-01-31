@@ -21,6 +21,7 @@ function toggle(event: Event) {
 
 <template>
     <label
+        @click.stop
         class="toggle-switch"
         :class="{ 'toggle-switch--disabled': disabled }"
     >

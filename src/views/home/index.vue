@@ -1,13 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import AppHeader from './components/app-header.vue'
 import NudgeList from './components/nudge-list.vue'
+
+const nudgeListRef = ref<InstanceType<typeof NudgeList> | null>(null)
+
+function handleAddTask() {
+    nudgeListRef.value?.openCreateForm()
+}
 </script>
 
 <template>
     <div class="home">
-        <AppHeader />
+        <AppHeader @add-task="handleAddTask" />
         <main class="home__main">
-            <NudgeList />
+            <NudgeList ref="nudgeListRef" />
         </main>
     </div>
 </template>
