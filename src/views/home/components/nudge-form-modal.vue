@@ -78,7 +78,7 @@ function toggleDay(day: number, selectedDays: number[]) {
 }
 
 function updateInterval(delta: number, current: number) {
-    const newValue = Math.max(5, Math.min(120, current + delta))
+    const newValue = Math.max(1, Math.min(999, current + delta))
     emit('update:intervalMinutes', newValue)
 }
 
@@ -242,7 +242,7 @@ function updateTime(index: number, value: string, times: string[]) {
                                             class="number-stepper__btn"
                                             @click="
                                                 updateInterval(
-                                                    -5,
+                                                    -1,
                                                     intervalMinutes
                                                 )
                                             "
@@ -265,7 +265,7 @@ function updateTime(index: number, value: string, times: string[]) {
                                             class="number-stepper__btn"
                                             @click="
                                                 updateInterval(
-                                                    5,
+                                                    1,
                                                     intervalMinutes
                                                 )
                                             "
@@ -705,8 +705,11 @@ function updateTime(index: number, value: string, times: string[]) {
 
 .number-stepper__value {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: var(--gap-xs);
+    color: var(--color-primary);
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .number-stepper__input {
@@ -730,11 +733,15 @@ function updateTime(index: number, value: string, times: string[]) {
     &:focus {
         outline: none;
     }
+
+    span {
+        color: var(--color-primary);
+    }
 }
 
 .number-stepper__unit {
     font-size: 18px;
-    color: var(--text-secondary);
+    color: var(--color-primary);
 }
 
 .add-time-btn {

@@ -52,6 +52,7 @@ defineExpose({
                 :schedule-config="nudge.scheduleConfig"
                 :next-reminder="nudge.nextReminder"
                 :active="nudge.active"
+                :last-trigger-time="nudge.lastTriggerTime"
                 @update:active="toggle(nudge.id, $event)"
                 @edit="openEditForm(nudge)"
             />

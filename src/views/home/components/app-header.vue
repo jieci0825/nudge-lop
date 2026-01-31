@@ -4,6 +4,7 @@ import IconButton from './icon-button.vue'
 
 const emit = defineEmits<{
     addTask: []
+    openSettings: []
 }>()
 </script>
 
@@ -28,7 +29,7 @@ const emit = defineEmits<{
                 />
                 Add Task
             </Button>
-            <IconButton>
+            <IconButton @click="emit('openSettings')">
                 <i-lucide-settings
                     width="20"
                     height="20"

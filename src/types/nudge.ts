@@ -40,6 +40,8 @@ export interface Nudge {
     schedule: string
     nextReminder: string
     active: boolean
+    /** 上次触发时间戳（用于 interval 模式计算下次触发） */
+    lastTriggerTime?: number
 }
 
 /** 表单数据（不含 id） */

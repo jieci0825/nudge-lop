@@ -1,13 +1,16 @@
 <script setup lang="ts">
 type ButtonType = 'primary' | 'outline' | 'ghost'
+type ButtonSize = 'small' | 'medium' | 'large'
 
 interface Props {
     type?: ButtonType
+    size?: ButtonSize
     disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
     type: 'primary',
+    size: 'medium',
     disabled: false,
 })
 </script>
@@ -15,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 <template>
     <button
         class="btn"
-        :class="[`btn-${type}`]"
+        :class="[`btn-${type}`, `btn-${size}`]"
         :disabled="disabled"
     >
         <slot />
@@ -24,9 +27,7 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped lang="scss">
 .btn {
-    padding: var(--gap-sm) var(--gap-md);
     border-radius: var(--radius-base);
-    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -83,5 +84,21 @@ withDefaults(defineProps<Props>(), {
     &:disabled {
         opacity: 0.5;
     }
+}
+
+/* Size variants */
+.btn-small {
+    padding: var(--gap-xs) var(--gap-sm);
+    font-size: 13px;
+}
+
+.btn-medium {
+    padding: var(--gap-sm) var(--gap-md);
+    font-size: 14px;
+}
+
+.btn-large {
+    padding: var(--gap-base) var(--gap-lg);
+    font-size: 16px;
 }
 </style>

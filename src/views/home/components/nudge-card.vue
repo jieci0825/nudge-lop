@@ -12,11 +12,14 @@ interface Props {
     scheduleConfig: ScheduleConfig
     nextReminder?: string
     active?: boolean
+    /** 上次触发时间戳（用于 interval 模式计算下次触发） */
+    lastTriggerTime?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
     active: true,
     nextReminder: '',
+    lastTriggerTime: undefined,
 })
 
 const emit = defineEmits<{
@@ -26,7 +29,7 @@ const emit = defineEmits<{
 
 // 计算下一次触发时间戳
 const nextTriggerTimestamp = computed(() => {
-    return calculateNextTriggerTime(props.scheduleConfig)
+    return calculateNextTriggerTime(props.scheduleConfig, props.lastTriggerTime)
 })
 </script>
 
@@ -64,7 +67,15 @@ const nextTriggerTimestamp = computed(() => {
             </div>
             <div class="nudge-card__next-reminder">
                 <span class="nudge-card__next-reminder-label">下次提醒：</span>
-                <CountdownTimer :target-timestamp="nextTriggerTimestamp" />
+                <span
+                    v-if="!active"
+                    class="nudge-card__paused-text"
+                    >任务已关闭</span
+                >
+                <CountdownTimer
+                    v-else
+                    :target-timestamp="nextTriggerTimestamp"
+                />
             </div>
         </div>
     </div>
@@ -150,5 +161,9 @@ const nextTriggerTimestamp = computed(() => {
 
 .nudge-card__next-reminder-label {
     color: var(--text-secondary);
+}
+
+.nudge-card__paused-text {
+    color: var(--text-tertiary);
 }
 </style>
