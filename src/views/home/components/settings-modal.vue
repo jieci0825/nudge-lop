@@ -25,7 +25,6 @@ function handleClose() {
             <div
                 v-if="visible"
                 class="modal-overlay"
-                @click.self="handleClose"
             >
                 <div class="modal-container">
                     <div class="modal-header">

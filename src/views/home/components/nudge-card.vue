@@ -25,6 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
     'update:active': [value: boolean]
     'edit': []
+    'delete': []
 }>()
 
 // 计算下一次触发时间戳
@@ -40,10 +41,22 @@ const nextTriggerTimestamp = computed(() => {
     >
         <div class="nudge-card__header">
             <h3 class="nudge-card__title">{{ title }}</h3>
-            <ToggleSwitch
-                :model-value="active"
-                @update:model-value="emit('update:active', $event)"
-            />
+            <div class="nudge-card__actions">
+                <button
+                    class="nudge-card__delete-btn"
+                    title="删除"
+                    @click.stop="emit('delete')"
+                >
+                    <i-lucide-trash-2
+                        width="16"
+                        height="16"
+                    />
+                </button>
+                <ToggleSwitch
+                    :model-value="active"
+                    @update:model-value="emit('update:active', $event)"
+                />
+            </div>
         </div>
         <p class="nudge-card__description">
             {{ description || '&nbsp;&nbsp;' }}
@@ -106,6 +119,36 @@ const nextTriggerTimestamp = computed(() => {
     align-items: center;
     justify-content: space-between;
     gap: var(--gap-base);
+}
+
+.nudge-card__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+}
+
+.nudge-card__delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    opacity: 0;
+    transition: all var(--transition-fast);
+
+    &:hover {
+        background: var(--bg-surface);
+        color: var(--color-danger, #ef4444);
+    }
+
+    .nudge-card:hover & {
+        opacity: 1;
+    }
 }
 
 .nudge-card__title {

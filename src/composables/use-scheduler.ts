@@ -48,12 +48,10 @@ async function sendSystemNotification(title: string, body: string) {
     try {
         // 确保有通知权限
         const hasPermission = await ensureNotificationPermission()
-        console.log('hasPermission', hasPermission)
         if (!hasPermission) {
             console.warn('Notification permission not granted')
             return
         }
-        console.log('sendNotification', title, body)
         // 发送通知
         sendNotification({ title, body })
     } catch (error) {

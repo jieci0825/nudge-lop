@@ -5,6 +5,7 @@ import IconButton from './icon-button.vue'
 const emit = defineEmits<{
     addTask: []
     openSettings: []
+    resetToDefault: []
 }>()
 </script>
 
@@ -19,6 +20,15 @@ const emit = defineEmits<{
             <span class="app-header__title">NudgeLoop</span>
         </div>
         <div class="app-header__right">
+            <IconButton
+                title="重置为默认任务"
+                @click="emit('resetToDefault')"
+            >
+                <i-lucide-rotate-ccw
+                    width="20"
+                    height="20"
+                />
+            </IconButton>
             <Button
                 type="primary"
                 @click="emit('addTask')"

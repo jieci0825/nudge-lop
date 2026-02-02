@@ -13,7 +13,7 @@ const filterTabs = [
     { key: 'paused', label: 'Paused' },
 ]
 
-const { filteredNudges, activeFilter, toggle } = useNudges()
+const { filteredNudges, activeFilter, toggle, remove } = useNudges()
 
 const formVisible = ref(false)
 const editingNudge = ref<Nudge | null>(null)
@@ -26,6 +26,12 @@ function openCreateForm() {
 function openEditForm(nudge: Nudge) {
     editingNudge.value = nudge
     formVisible.value = true
+}
+
+function handleDelete(nudge: Nudge) {
+    // Tauri 中 window.confirm() 不可用，直接删除
+    // TODO: 后续可以添加自定义确认模态框
+    remove(nudge.id)
 }
 
 defineExpose({
@@ -55,6 +61,7 @@ defineExpose({
                 :last-trigger-time="nudge.lastTriggerTime"
                 @update:active="toggle(nudge.id, $event)"
                 @edit="openEditForm(nudge)"
+                @delete="handleDelete(nudge)"
             />
             <NudgeCreateCard @click="openCreateForm" />
         </div>

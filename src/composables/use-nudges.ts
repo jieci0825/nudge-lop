@@ -1,9 +1,45 @@
-import { ref, computed } from 'vue'
-import type { Nudge } from '@/types/nudge'
+import { ref, computed, watch } from 'vue'
+import type { Nudge, ScheduleConfig } from '@/types/nudge'
+import { loadNudges, saveNudges } from '@/utils/storage'
+import { DEFAULT_NUDGES } from '@/constants/default-nudges'
 
-const defaultNudges: Nudge[] = []
+// 从本地存储加载 nudges 数据
+const nudges = ref<Nudge[]>(loadNudges())
 
-const nudges = ref<Nudge[]>(defaultNudges)
+/**
+ * 根据调度配置生成描述文本
+ */
+function generateScheduleText(config: ScheduleConfig): string {
+    const dayNames = ['日', '一', '二', '三', '四', '五', '六']
+    const formatDays = (days: number[]): string => {
+        if (days.length === 7) return '每天'
+        const sorted = days
+            .sort((a, b) => (a === 0 ? 7 : a) - (b === 0 ? 7 : b))
+            .map(d => dayNames[d])
+            .join('、')
+        return `周${sorted}`
+    }
+
+    switch (config.mode) {
+        case 'interval':
+            return `每 ${config.intervalMinutes} 分钟`
+        case 'fixed':
+            return `${formatDays(config.days)} ${config.times.length} 个时间点`
+        case 'hourly':
+            return `${formatDays(config.days)} 每小时第 ${
+                config.minuteOfHour
+            } 分`
+    }
+}
+
+// 监听 nudges 变化，自动保存到本地存储
+watch(
+    nudges,
+    newNudges => {
+        saveNudges(newNudges)
+    },
+    { deep: true }
+)
 
 export type FilterType = 'all' | 'active' | 'paused'
 
@@ -53,6 +89,19 @@ export function useNudges() {
         }
     }
 
+    /**
+     * 重置为默认任务
+     * 清空所有任务，然后添加默认任务
+     */
+    function resetToDefault() {
+        nudges.value = DEFAULT_NUDGES.map((defaultNudge, index) => ({
+            ...defaultNudge,
+            id: Date.now() + index,
+            schedule: generateScheduleText(defaultNudge.scheduleConfig),
+            nextReminder: '计算中...',
+        }))
+    }
+
     return {
         nudges,
         activeFilter,
@@ -62,5 +111,6 @@ export function useNudges() {
         remove,
         toggle,
         update,
+        resetToDefault,
     }
 }

@@ -12,14 +12,19 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('./../components/button/index.vue')['default']
+    ConfirmModal: typeof import('./../components/confirm-modal/index.vue')['default']
+    ILucideAlertTriangle: typeof import('~icons/lucide/alert-triangle')['default']
     ILucideBell: typeof import('~icons/lucide/bell')['default']
     ILucideBolt: typeof import('~icons/lucide/bolt')['default']
     ILucideCalendar: typeof import('~icons/lucide/calendar')['default']
     ILucideClock: typeof import('~icons/lucide/clock')['default']
+    ILucideInfo: typeof import('~icons/lucide/info')['default']
     ILucideMinus: typeof import('~icons/lucide/minus')['default']
     ILucidePlus: typeof import('~icons/lucide/plus')['default']
     ILucideRefreshCw: typeof import('~icons/lucide/refresh-cw')['default']
+    ILucideRotateCcw: typeof import('~icons/lucide/rotate-ccw')['default']
     ILucideSettings: typeof import('~icons/lucide/settings')['default']
+    ILucideTrash2: typeof import('~icons/lucide/trash2')['default']
     ILucideX: typeof import('~icons/lucide/x')['default']
     Tag: typeof import('./../components/tag/index.vue')['default']
   }

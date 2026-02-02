@@ -125,7 +125,6 @@ function updateTime(index: number, value: string, times: string[]) {
             <div
                 v-if="visible"
                 class="modal-overlay"
-                @click.self="handleClose"
             >
                 <div class="modal">
                     <header class="modal__header">
@@ -443,12 +442,12 @@ function updateTime(index: number, value: string, times: string[]) {
                     </div>
 
                     <footer class="modal__footer">
-                        <button
-                            class="modal__cancel-btn"
+                        <AppButton
+                            type="outline"
                             @click="handleClose"
                         >
                             取消
-                        </button>
+                        </AppButton>
                         <AppButton
                             type="primary"
                             @click="handleSubmit"
@@ -534,23 +533,6 @@ function updateTime(index: number, value: string, times: string[]) {
     gap: var(--gap-sm);
     padding: var(--gap-md);
     border-top: 1px solid var(--border-default);
-}
-
-.modal__cancel-btn {
-    padding: var(--gap-sm) var(--gap-md);
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: var(--radius-base);
-    transition: all var(--transition-fast);
-
-    &:hover {
-        color: var(--text-primary);
-        background: var(--bg-surface);
-    }
 }
 
 .form-field {
